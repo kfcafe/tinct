@@ -118,6 +118,9 @@ defmodule Tinct.AppTest do
       writer = start_supervised!({Tinct.Terminal.Writer, output: self()})
       task_supervisor = start_supervised!({Task.Supervisor, []})
 
+      # Make capability-dependent output deterministic across environments.
+      capabilities = Capabilities.detect(%{"TERM" => "xterm-256color", tty: true})
+
       app =
         start_supervised!(
           {App,
@@ -126,6 +129,7 @@ defmodule Tinct.AppTest do
            writer: writer,
            task_supervisor: task_supervisor,
            reader_mode: {:test, self()},
+           capabilities: capabilities,
            size: {20, 3}}
         )
 
@@ -144,6 +148,8 @@ defmodule Tinct.AppTest do
     end
 
     test "initial render enables unicode width mode when supported" do
+      _output = receive_initial_render!()
+
       writer =
         start_supervised!(%{
           id: :unicode_writer,
