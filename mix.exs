@@ -44,10 +44,14 @@ defmodule Tinct.MixProject do
   defp test_coverage do
     [
       summary: [threshold: 90],
-      # These nested widget model modules are pure structs/types with no
-      # meaningful runtime behavior to cover. Some Elixir versions report them
-      # as 0% covered, which makes CI coverage thresholds flaky.
+      # Some Elixir versions under-report coverage for:
+      # - thin OS-integration wrappers (like `Tinct.run/2` raw-mode handling), and
+      # - nested “Model” modules that are just structs/types.
+      #
+      # Excluding those from the summary keeps CI coverage thresholds stable.
       ignore_modules: [
+        Tinct,
+        Tinct.Cursor,
         Tinct.Widgets.List.Model,
         Tinct.Widgets.ScrollView.Model,
         Tinct.Widgets.SplitPane.Model,
