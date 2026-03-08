@@ -39,19 +39,17 @@ defmodule TinctTest do
     assert Task.await(task, 2_000) == :ok
   end
 
-  defp wait_for_registered!(name) do
-    case Enum.reduce_while(1..100, nil, fn _, _ ->
-           case Process.whereis(name) do
-             nil ->
-               Process.sleep(10)
-               {:cont, nil}
+  defp wait_for_registered!(name), do: wait_for_registered!(name, 100)
 
-             pid ->
-               {:halt, pid}
-           end
-         end) do
+  defp wait_for_registered!(name, 0) do
+    flunk("Expected process #{inspect(name)} to be registered")
+  end
+
+  defp wait_for_registered!(name, attempts_left) when attempts_left > 0 do
+    case Process.whereis(name) do
       nil ->
-        flunk("Expected process #{inspect(name)} to be registered")
+        Process.sleep(10)
+        wait_for_registered!(name, attempts_left - 1)
 
       pid ->
         pid

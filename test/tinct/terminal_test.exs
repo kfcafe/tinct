@@ -9,19 +9,24 @@ defmodule Tinct.TerminalTest do
 
   setup do
     # Ensure a fresh state agent for each test.
-    # Stop any existing agent first.
+    stop_existing_terminal_agent()
+
+    Terminal.ensure_started()
+    :ok
+  end
+
+  defp stop_existing_terminal_agent do
     case Process.whereis(Terminal) do
       nil ->
         :ok
 
       pid ->
-        if Process.alive?(pid) do
+        try do
           Agent.stop(pid)
+        catch
+          :exit, _ -> :ok
         end
     end
-
-    Terminal.ensure_started()
-    :ok
   end
 
   describe "State management" do
