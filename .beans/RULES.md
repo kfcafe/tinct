@@ -6,7 +6,7 @@ Elixir. Pure Elixir — no NIFs, no Ports for core functionality.
 ## Verify Gate
 Every bean must pass:
 ```bash
-cd /Users/asher/tinct && mix compile --warnings-as-errors && mix test --no-start
+mix compile --warnings-as-errors && mix test --no-start
 ```
 Individual beans add specific test file assertions on top of this.
 
@@ -40,6 +40,22 @@ Individual beans add specific test file assertions on top of this.
 - No complex `else` blocks in `with` statements
 - No `Application.get_env` at compile time in module bodies
 - No mocks — use behaviour-based injection if needed
+
+## Component Pattern (Elm Architecture)
+- `update/2` returns either `model` or `{model, command}` — never call side effects directly
+- `view/1` always returns a `%Tinct.View{}` struct, never raw strings or iodata
+- Commands are data — `Command.async/2`, `Command.quit/0`, `Command.batch/1` — the runtime executes them
+- Use `@impl Tinct.Component` (not `@impl true`) on component callbacks for clarity
+
+## UI Construction
+- Users build UIs with `import Tinct.UI` and the block DSL (`column do ... end`)
+- Element builders (`Element.text/2`, `Element.row/2`) are the underlying layer — DSL wraps them
+- Style sugar: `color:` → `fg:`, `background:` → `bg:` in the DSL
+
+## Testing Components
+- Use `Tinct.Test.render/2` → `Tinct.Test.send_key/2` → `Tinct.Test.contains?/2`
+- Never start real terminal processes in tests — `Tinct.Test` renders to in-memory buffers
+- Use `send_event_raw/2` or `send_key_raw/2` when you need to assert on returned commands
 
 ## File Naming
 - `lib/tinct/module_name.ex` for `Tinct.ModuleName`

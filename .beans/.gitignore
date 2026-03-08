@@ -4,3 +4,12 @@ archive.yaml
 
 # File lock
 index.lock
+
+# Local agent run logs
+agent_history.jsonl
+
+# Archived beans (generated / internal)
+archive/
+
+# Local bean definitions (work tracking)
+*.md

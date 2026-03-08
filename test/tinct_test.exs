@@ -1,8 +1,10 @@
 defmodule TinctTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Tinct
 
-  test "greets the world" do
-    assert Tinct.hello() == :world
+  test "quit/1 returns model and :quit command" do
+    {model, cmd} = Tinct.quit(%{count: 1})
+    assert model == %{count: 1}
+    assert cmd == :quit
   end
 end

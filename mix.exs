@@ -2,7 +2,7 @@ defmodule Tinct.MixProject do
   use Mix.Project
 
   @version "0.1.0-dev"
-  @source_url "https://github.com/asher/tinct"
+  @source_url "https://github.com/kfcafe/tinct"
 
   def project do
     [
