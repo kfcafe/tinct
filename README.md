@@ -1,34 +1,41 @@
 # Tinct
 
-Tinct is a pure Elixir terminal UI framework.
+[![CI](https://github.com/kfcafe/tinct/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kfcafe/tinct/actions/workflows/ci.yml)
 
-It brings an Elm-style component model (`init/update/view`) to the BEAM, with
-headless testing and a small set of composable widgets.
+Tinct is a terminal UI framework written in pure Elixir.
+
+It gives you an Elm-style component model (`init/update/view`) plus headless
+rendering tests, so you can spend more time building your tool and less time
+fighting ANSI escape sequences.
+
+If you’ve built TUIs before: Tinct is trying to feel like LiveView development,
+but in the terminal.
 
 ## Status
 
 **Alpha (`0.1.0-dev`)**.
 
-Tinct is usable for experiments and internal tools, but it is not stable yet.
-Expect API changes while the core architecture settles.
+It works well enough for experiments and internal tools, but it’s not stable
+yet. Expect breaking API changes while the architecture settles.
+
+If you do use it right now, pin to a commit.
 
 ## API stability
 
-We are preparing for beta and now publish explicit API stability expectations.
+During `0.x`, API compatibility is not guaranteed across every commit.
 
-- During `0.x`, API compatibility is not guaranteed across every commit.
-- For beta tags (`0.2.0-beta.x` and later), we aim to keep core public APIs stable and use a documented deprecation process before removals.
-- Breaking API changes are called out in release notes and in a dedicated policy doc.
+For beta tags (`0.2.0-beta.x` and later), the goal is stable core public APIs
+with a documented deprecation process.
 
-Read the full policy in [docs/API_STABILITY.md](docs/API_STABILITY.md), including what is stable, what can still change, deprecation windows, and versioning expectations.
+Full policy: [docs/API_STABILITY.md](docs/API_STABILITY.md)
 
 ## Quick Start
 
-Prerequisites:
+Prereqs:
 
 - Elixir `~> 1.16`
 
-Run the examples:
+Run the demos:
 
 ```bash
 git clone https://github.com/kfcafe/tinct.git
@@ -45,40 +52,42 @@ mix run examples/dashboard.ex
 mix run examples/widgets.ex
 ```
 
-In the demos, press `q` or `ctrl+c` to quit.
+Press `q` or `ctrl+c` to quit.
 
-## Installation (alpha/dev expectations)
+## Installation (alpha / repo-first)
 
-Right now, this repository is the source of truth.
+Right now, this repo is the source of truth.
 
-- The project version is `0.1.0-dev`
-- Public APIs may change between commits
-- Packaging/release flow is still being finalized for a stable developer experience
+If you want to try Tinct in another project, pin a commit in `mix.exs`:
 
-If you are evaluating Tinct, prefer pinning to a commit and planning for updates.
+```elixir
+defp deps do
+  [
+    {:tinct, github: "kfcafe/tinct", ref: "<commit>"}
+  ]
+end
+```
 
 ## What works now
 
-- Elm Architecture component flow (`init/1`, `update/2`, `view/1`)
-- Declarative view building (`Tinct.UI` DSL + `Tinct.Element`)
-- Core terminal event handling (keyboard, paste, mouse, resize)
-- Layout and rendering pipeline (buffer + diff + ANSI output)
+- Elm Architecture flow (`init/1`, `update/2`, `view/1`)
+- Declarative UI building (`Tinct.UI` DSL + `Tinct.Element`)
+- Terminal input events: keyboard, paste, mouse, resize
+- Layout + rendering pipeline (buffer + diff + ANSI output)
 - Built-in widgets with tests:
   - `Text`, `TextInput`, `List`, `Table`, `Tabs`
   - `ProgressBar`, `Spinner`, `ScrollView`, `Static`
-  - `Border`, `StatusBar`
-- Headless UI testing helpers via `Tinct.Test`
+  - `Border`, `StatusBar`, `SplitPane`, `Tree`
+- Headless UI testing via `Tinct.Test`
 
-## What is next
+## Docs
 
-- Stabilize API shape and reduce breaking changes
-- Improve onboarding docs and cookbook-style examples
-- Expand real-world examples beyond demos
-- Tighten packaging/release workflow for easier adoption
+- Architecture overview: [ARCHITECTURE.md](ARCHITECTURE.md)
+- Terminal notes / manual verification matrix: [docs/TERMINAL_COMPATIBILITY.md](docs/TERMINAL_COMPATIBILITY.md)
 
-## Architecture
+## Contributing
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for layer-by-layer design details.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

@@ -30,7 +30,7 @@ This Code of Conduct applies in all project spaces, including issues, pull reque
 
 If you experience or witness unacceptable behavior:
 
-1. Contact the maintainer through the contact method listed on the maintainer profile: https://github.com/asher
+1. Contact the maintainer through the contact method listed on the maintainer profile: https://github.com/kfcafe
 2. If you cannot find a private contact method, open an issue requesting private follow-up without posting sensitive details.
 
 All reports are reviewed promptly and handled as confidentially as possible.
